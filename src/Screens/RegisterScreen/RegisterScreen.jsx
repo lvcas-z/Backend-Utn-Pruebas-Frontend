@@ -1,6 +1,6 @@
 import React from 'react'
-import useFetch from '../../Hooks/useFetch.jsx'
-import useForm from '../../Hooks/useForm.jsx'
+import useFetch from '../../hooks/useFetch.jsx'
+import useForm from '../../hooks/useForm.jsx'
 import { register } from '../../Services/auth.service.js'
 const RegisterScreen = () => {
 
@@ -19,9 +19,10 @@ const RegisterScreen = () => {
     }
 
     //Estados para manejar una consulta al servidor
-    const { response, error, loading, sendRequest } = useFetch()
+    const { response, error, loading, sendRequest, resetResponse } = useFetch()
 
     function onRegister(formStateSent) {
+        resetResponse()
         sendRequest(() => {
             return register(
                 formStateSent[registerFormFields.USERNAME],
