@@ -13,18 +13,18 @@ const AuthContextProvider = ({children}) => {
     const [user, setUser] = useState(null)
 
     //ESTADO: Marca si esta o no logueado el usuario
-    const [ isLogged, setIsLogged ] = useState( Boolean(localStorage.getItem('auth_token')) )
+    const [ isLogged, setIsLogged ] = useState( Boolean(localStorage.getItem('authToken')) )
 
 
     //Una vez se monte el componente decodificar el token y guardar los datos de sesion
     useEffect(
         () => {
-            if(!localStorage.getItem('auth_token')){
+            if(!localStorage.getItem('authToken')){
                 setIsLogged(false)
                 setUser(null)
                 return 
             }
-            const user = decodeToken(localStorage.getItem('auth_token'))
+            const user = decodeToken(localStorage.getItem('authToken'))
             if(user){
                 setUser(user)
                 setIsLogged(true)
@@ -38,17 +38,19 @@ const AuthContextProvider = ({children}) => {
     )
 
     function onLogout(){
-        localStorage.removeItem('auth_token')
+        localStorage.removeItem('authToken')
         setIsLogged(false)
         setUser(null)
         //Si quieren pueden redireccionar a login
-        navigate('/login')
+        navigate('/home')
     }
 
-    function onLogin (auth_token){
-        localStorage.setItem('auth_token', auth_token)
+    function onLogin (authToken){
+        console.log("Soy el auth",authToken);
+        
+        localStorage.setItem('authToken', authToken)
         setIsLogged(true)
-        const user_session = decodeToken(auth_token)
+        const user_session = decodeToken(authToken)
         setUser(user_session)
         navigate('/home')
     }

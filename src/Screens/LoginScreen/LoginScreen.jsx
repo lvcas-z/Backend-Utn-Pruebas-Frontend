@@ -1,12 +1,11 @@
 import React, { useContext, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router'
 import { login } from '../../Services/auth.service.js'
-import useForm from '../../hooks/useForm'
-import useFetch from '../../hooks/useFetch'
 import { AuthContext } from '../../Context/AuthContext'
-
+import useFetch from '../../hooks/useFetch.jsx'
+import useForm from '../../hooks/useForm.jsx'
+import './LoginScreen.css'
 const LoginScreen = () => {
-    const navigate = useNavigate()
     const location = useLocation()
     const { onLogin } = useContext(AuthContext)
 
@@ -58,7 +57,8 @@ const LoginScreen = () => {
             if (response && response.ok) {
                 //Queremos que persista en memoria el auth token
                 //Dejamos que el context se encargue de que sucedera
-                onLogin(response.body.auth_token)
+                
+                onLogin(response.body.authToken)
 
             }
         },
@@ -67,14 +67,14 @@ const LoginScreen = () => {
     return (
         <div className="form-container">
             <form onSubmit={handleSubmit}>
-                <div className="form-field">
+                <div className="form-field-container">
                     <label htmlFor="email">Email: </label>
-                    <input type="text" placeholder="example@gmail.com" value={formState[loginFormFields.EMAIL]} name={loginFormFields.EMAIL} onChange={onInputChange} id={'email'} />
+                    <input className='form-control' type="text" placeholder="example@gmail.com" value={formState[loginFormFields.EMAIL]} name={loginFormFields.EMAIL} onChange={onInputChange} id='email' />
                 </div>
 
-                <div>
+                <div className="form-field-container">
                     <label htmlFor="password">Password: </label>
-                    <input type="text" placeholder="example1283712" value={formState[loginFormFields.PASSWORD]} name={loginFormFields.PASSWORD} onChange={onInputChange} id={'password'} />
+                    <input className='form-control' type="text" placeholder="example1283712" value={formState[loginFormFields.PASSWORD]} name={loginFormFields.PASSWORD} onChange={onInputChange} id={'password'} />
                 </div>
 
                 {error && <span style={{ color: 'red' }}> {error} </span>}
@@ -82,8 +82,8 @@ const LoginScreen = () => {
 
                 {
                     loading
-                        ? <button disabled>Loggin In</button>
-                        : <button>Login</button>
+                        ? <button className='btn' disabled>Loggin In</button>
+                        : <button className='btn btn-light'>Login</button>
                 }
             </form>
         </div>
